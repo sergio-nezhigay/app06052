@@ -1,4 +1,3 @@
-import { verifyHMAC } from "@shopify/shopify-auth";
 import "@shopify/shopify-app-remix/adapters/node";
 import {
   ApiVersion,
@@ -50,19 +49,3 @@ export const unauthenticated = shopify.unauthenticated;
 export const login = shopify.login;
 export const registerWebhooks = shopify.registerWebhooks;
 export const sessionStorage = shopify.sessionStorage;
-
-export const verifyHMACSignature = async (request) => {
-  const hmacHeader = request.headers.get("X-Shopify-Hmac-Sha256");
-  const requestBody = await request.text();
-
-  if (!hmacHeader) {
-    return false;
-  }
-
-  try {
-    return verifyHMAC(requestBody, process.env.SHOPIFY_API_SECRET, hmacHeader);
-  } catch (error) {
-    console.error("Error verifying HMAC signature:", error);
-    return false;
-  }
-};
