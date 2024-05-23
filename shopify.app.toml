@@ -3,7 +3,7 @@
 client_id = "78cbad4723ca52716b6d579a312bf37d"
 name = "app06052"
 handle = "app06052"
-application_url = "https://recruitment-medications-newer-quotes.trycloudflare.com"
+application_url = "https://automatic-recovered-sacred-hd.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_payment_customizations,write_products"
 
 [auth]
 redirect_urls = [
-  "https://recruitment-medications-newer-quotes.trycloudflare.com/auth/callback",
-  "https://recruitment-medications-newer-quotes.trycloudflare.com/auth/shopify/callback",
-  "https://recruitment-medications-newer-quotes.trycloudflare.com/api/auth/callback"
+  "https://automatic-recovered-sacred-hd.trycloudflare.com/auth/callback",
+  "https://automatic-recovered-sacred-hd.trycloudflare.com/auth/shopify/callback",
+  "https://automatic-recovered-sacred-hd.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

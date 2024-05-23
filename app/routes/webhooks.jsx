@@ -12,10 +12,18 @@ export const loader = async ({ request }) => {
 
 export const action = async ({ request }) => {
   const { topic, shop, session, admin } = await authenticate.webhook(request);
+  console.log("Topic:", topic);
+  console.log("Shop:", shop);
+  console.log("Session:", session);
+  console.log("Admin:", admin);
 
   const secret = process.env.SHOPIFY_API_SECRET;
+  console.log("SHOPIFY_API_SECRET:", secret);
+
   const payload = await request.text();
   const receivedSignature = request.headers.get("X-Shopify-Hmac-SHA256");
+  console.log("Payload:", payload);
+  console.log("Received Signature:", receivedSignature);
 
   if (!receivedSignature || !verifyHMAC(secret, payload, receivedSignature)) {
     return json({ error: "Invalid signature" }, { status: 401 });
@@ -39,6 +47,7 @@ export const action = async ({ request }) => {
     case "SHOP_REDACT":
       break;
     default:
+      console.log("Unhandled Webhook Topic:", topic);
       throw new Response("Unhandled webhook topic", { status: 404 });
   }
 
