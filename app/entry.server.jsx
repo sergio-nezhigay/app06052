@@ -1,27 +1,53 @@
-import { RemixServer } from "remix";
-import { renderToString } from "react-dom/server";
-import { verifyHMACSignature } from "./shopify.server";
+import { PassThrough } from "stream";
+import { renderToPipeableStream } from "react-dom/server";
+import { RemixServer } from "@remix-run/react";
+import { createReadableStreamFromReadable } from "@remix-run/node";
+import { isbot } from "isbot";
+import { addDocumentResponseHeaders } from "./shopify.server";
 
-async function handleRequest(
+const ABORT_DELAY = 5000;
+
+export default async function handleRequest(
   request,
   responseStatusCode,
   responseHeaders,
   remixContext,
 ) {
-  const isValid = await verifyHMACSignature(request);
-  if (!isValid) {
-    return new Response("Invalid HMAC", { status: 403 });
-  }
+  addDocumentResponseHeaders(request, responseHeaders);
+  const userAgent = request.headers.get("user-agent");
+  const callbackName = isbot(userAgent ?? "") ? "onAllReady" : "onShellReady";
 
-  const markup = renderToString(
-    <RemixServer context={remixContext} url={request.url} />,
-  );
-  responseHeaders.set("Content-Type", "text/html");
+  return new Promise((resolve, reject) => {
+    const { pipe, abort } = renderToPipeableStream(
+      <RemixServer
+        context={remixContext}
+        url={request.url}
+        abortDelay={ABORT_DELAY}
+      />,
+      {
+        [callbackName]: () => {
+          const body = new PassThrough();
+          const stream = createReadableStreamFromReadable(body);
 
-  return new Response(`<!DOCTYPE html>${markup}`, {
-    status: responseStatusCode,
-    headers: responseHeaders,
+          responseHeaders.set("Content-Type", "text/html");
+          resolve(
+            new Response(stream, {
+              headers: responseHeaders,
+              status: responseStatusCode,
+            }),
+          );
+          pipe(body);
+        },
+        onShellError(error) {
+          reject(error);
+        },
+        onError(error) {
+          responseStatusCode = 500;
+          console.error(error);
+        },
+      },
+    );
+
+    setTimeout(abort, ABORT_DELAY);
   });
 }
-
-export default handleRequest;

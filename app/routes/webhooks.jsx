@@ -1,7 +1,15 @@
 import { json } from "@remix-run/node";
-import { verifyHMAC } from "@shopify/shopify-auth";
+import crypto from "crypto";
 import { authenticate } from "../shopify.server";
 import db from "../db.server";
+
+const SHOPIFY_API_SECRET = process.env.SHOPIFY_API_SECRET;
+
+const verifyHMAC = (secret, payload, receivedSignature) => {
+  const hmac = crypto.createHmac("sha256", secret);
+  const hash = hmac.update(payload, "utf8").digest("base64");
+  return hash === receivedSignature;
+};
 
 export const loader = async ({ request }) => {
   return json(
@@ -17,15 +25,15 @@ export const action = async ({ request }) => {
   console.log("Session:", session);
   console.log("Admin:", admin);
 
-  const secret = process.env.SHOPIFY_API_SECRET;
-  console.log("SHOPIFY_API_SECRET:", secret);
-
   const payload = await request.text();
   const receivedSignature = request.headers.get("X-Shopify-Hmac-SHA256");
   console.log("Payload:", payload);
   console.log("Received Signature:", receivedSignature);
 
-  if (!receivedSignature || !verifyHMAC(secret, payload, receivedSignature)) {
+  if (
+    !receivedSignature ||
+    !verifyHMAC(SHOPIFY_API_SECRET, payload, receivedSignature)
+  ) {
     return json({ error: "Invalid signature" }, { status: 401 });
   }
 
