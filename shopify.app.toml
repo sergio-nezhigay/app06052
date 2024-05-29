@@ -3,7 +3,7 @@
 client_id = "78cbad4723ca52716b6d579a312bf37d"
 name = "app06052"
 handle = "app06052"
-application_url = "https://probe-middle-wto-stuff.trycloudflare.com"
+application_url = "https://fo-homework-lexmark-reunion.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_payment_customizations,write_products"
 
 [auth]
 redirect_urls = [
-  "https://probe-middle-wto-stuff.trycloudflare.com/auth/callback",
-  "https://probe-middle-wto-stuff.trycloudflare.com/auth/shopify/callback",
-  "https://probe-middle-wto-stuff.trycloudflare.com/api/auth/callback"
+  "https://fo-homework-lexmark-reunion.trycloudflare.com/auth/callback",
+  "https://fo-homework-lexmark-reunion.trycloudflare.com/auth/shopify/callback",
+  "https://fo-homework-lexmark-reunion.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

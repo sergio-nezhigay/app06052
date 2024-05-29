@@ -1,0 +1,34 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "78cbad4723ca52716b6d579a312bf37d"
+name = "app06052"
+handle = "app06052"
+application_url = "https://acm-role-his-lebanon.trycloudflare.com"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "codeinspire2.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+# Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
+scopes = "write_payment_customizations,write_products"
+
+[auth]
+redirect_urls = [
+  "https://acm-role-his-lebanon.trycloudflare.com/auth/callback",
+  "https://acm-role-his-lebanon.trycloudflare.com/auth/shopify/callback",
+  "https://acm-role-his-lebanon.trycloudflare.com/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-04"
+
+  [webhooks.privacy_compliance]
+  customer_deletion_url = "https://omissions-interracial-pichunter-anna.trycloudflare.com/"
+  customer_data_request_url = "https://omissions-interracial-pichunter-anna.trycloudflare.com/"
+  shop_deletion_url = "https://omissions-interracial-pichunter-anna.trycloudflare.com/"
+
+[pos]
+embedded = false
