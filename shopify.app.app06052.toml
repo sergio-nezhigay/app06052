@@ -3,7 +3,7 @@
 client_id = "78cbad4723ca52716b6d579a312bf37d"
 name = "app06052"
 handle = "app06052"
-application_url = "https://acm-role-his-lebanon.trycloudflare.com"
+application_url = "https://campaigns-analysts-bradford-specifically.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_payment_customizations,write_products"
 
 [auth]
 redirect_urls = [
-  "https://acm-role-his-lebanon.trycloudflare.com/auth/callback",
-  "https://acm-role-his-lebanon.trycloudflare.com/auth/shopify/callback",
-  "https://acm-role-his-lebanon.trycloudflare.com/api/auth/callback"
+  "https://campaigns-analysts-bradford-specifically.trycloudflare.com/auth/callback",
+  "https://campaigns-analysts-bradford-specifically.trycloudflare.com/auth/shopify/callback",
+  "https://campaigns-analysts-bradford-specifically.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

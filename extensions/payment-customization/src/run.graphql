@@ -5,6 +5,26 @@ query RunInput {
         amount
       }
     }
+    lines {
+      id
+      merchandise {
+        ... on ProductVariant {
+          id
+          title
+          product {
+            metafield(namespace: "descriptors", key: "subtitle") {
+              value
+            }
+          }
+        }
+      }
+      quantity
+      cost {
+        totalAmount {
+          amount
+        }
+      }
+    }
   }
   paymentMethods {
     id

@@ -17,45 +17,29 @@ const NO_CHANGES = {
  * @returns {FunctionRunResult}
  */
 export function run(input) {
-  // Define a type for your configuration, and parse it from the metafield
-  /**
-   * @type {{
-   *   paymentMethodName: string
-   *   cartTotal: number
-   * }}
-   */
-  const configuration = JSON.parse(
-    input?.paymentCustomization?.metafield?.value ?? "{}",
-  );
-  if (!configuration.paymentMethodName || !configuration.cartTotal) {
+  const supplier = input.cart.lines.reduce((acc, current) => {
+    // @ts-ignore
+    const subtitle = current.merchandise?.product?.metafield?.value ?? "";
+    return subtitle ? subtitle : acc;
+  }, "");
+  console.log("Supplier name:", supplier);
+  if (!supplier) {
     return NO_CHANGES;
   }
 
-  const cartTotal = parseFloat(input.cart.cost.totalAmount.amount ?? "0.0");
-  // Use the configured cart total instead of a hardcoded value
-  if (cartTotal < configuration.cartTotal) {
-    console.error(
-      "12Cart total is not high enough, no need to hide the payment method.",
-    );
-    return NO_CHANGES;
-  }
-
-  // Use the configured payment method name instead of a hardcoded value
-  const hidePaymentMethod = input.paymentMethods.find((method) =>
-    method.name.includes(configuration.paymentMethodName),
+  const hidePaymentMethods = input.paymentMethods.filter(
+    (method) => !method.name.includes(supplier),
   );
 
-  if (!hidePaymentMethod) {
+  if (hidePaymentMethods.length === 0) {
     return NO_CHANGES;
   }
 
   return {
-    operations: [
-      {
-        hide: {
-          paymentMethodId: hidePaymentMethod.id,
-        },
+    operations: hidePaymentMethods.map((method) => ({
+      hide: {
+        paymentMethodId: method.id,
       },
-    ],
+    })),
   };
 }
