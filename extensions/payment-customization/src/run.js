@@ -17,18 +17,25 @@ const NO_CHANGES = {
  * @returns {FunctionRunResult}
  */
 export function run(input) {
-  const supplier = input.cart.lines.reduce((acc, current) => {
-    // @ts-ignore
-    const subtitle = current.merchandise?.product?.metafield?.value ?? "";
-    return subtitle ? subtitle : acc;
-  }, "");
-  console.log("Supplier name:", supplier);
-  if (!supplier) {
+  const supplier = input.cart.lines.reduce(
+    (acc, current) => {
+      // @ts-ignore
+      const name = current.merchandise?.product?.metafield?.value ?? "";
+      const cost = current.cost.totalAmount.amount;
+      const toChange = Boolean(name) && cost > acc.cost;
+      return toChange ? { name, cost } : { ...acc };
+    },
+    { name: "", cost: 0 },
+  );
+  console.log("🚀 ~ supplier:", supplier.name);
+  console.error("🚀 ~ supplier:", supplier.name);
+
+  if (!supplier.name) {
     return NO_CHANGES;
   }
 
   const hidePaymentMethods = input.paymentMethods.filter(
-    (method) => !method.name.includes(supplier),
+    (method) => !method.name.includes(supplier.name),
   );
 
   if (hidePaymentMethods.length === 0) {

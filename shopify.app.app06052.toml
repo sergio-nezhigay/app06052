@@ -3,7 +3,7 @@
 client_id = "78cbad4723ca52716b6d579a312bf37d"
 name = "app06052"
 handle = "app06052"
-application_url = "https://campaigns-analysts-bradford-specifically.trycloudflare.com"
+application_url = "https://ipaq-kent-acceptable-consultants.trycloudflare.com"
 embedded = true
 
 [build]
@@ -17,9 +17,9 @@ scopes = "write_payment_customizations,write_products"
 
 [auth]
 redirect_urls = [
-  "https://campaigns-analysts-bradford-specifically.trycloudflare.com/auth/callback",
-  "https://campaigns-analysts-bradford-specifically.trycloudflare.com/auth/shopify/callback",
-  "https://campaigns-analysts-bradford-specifically.trycloudflare.com/api/auth/callback"
+  "https://ipaq-kent-acceptable-consultants.trycloudflare.com/auth/callback",
+  "https://ipaq-kent-acceptable-consultants.trycloudflare.com/auth/shopify/callback",
+  "https://ipaq-kent-acceptable-consultants.trycloudflare.com/api/auth/callback"
 ]
 
 [webhooks]

@@ -12,7 +12,7 @@ query RunInput {
           id
           title
           product {
-            metafield(namespace: "descriptors", key: "subtitle") {
+            metafield(namespace: "custom", key: "payment_name") {
               value
             }
           }
